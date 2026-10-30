@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>POBG: PlayerOmnom's Battlegrounds</title>
+    <title>POBG: PlayerOmnom's Battlegrounds (Fast Tempo Version)</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
         
@@ -805,8 +805,8 @@
                 let osc = this.ctx.createOscillator(); let gain = this.ctx.createGain();
                 osc.type = 'sine'; osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
                 gain.gain.setValueAtTime(0.2, this.ctx.currentTime);
-                gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.18);
-                osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + 0.18);
+                gain.gain.linearRampToValueAtTime(0.01, this.ctx.currentTime + 0.15);
+                osc.connect(gain); gain.connect(this.ctx.destination); osc.start(); osc.stop(this.ctx.currentTime + 0.15);
             }
         }
 
@@ -881,29 +881,29 @@
         function getWeaponStats(type, level) {
             if (type === 'pistol') {
                 const levels = {
-                    1: { fireRate: 400, damage: 25, bulletSpeed: 10, color: "#ffcc00", spread: 0, count: 1 },
-                    2: { fireRate: 380, damage: 29, bulletSpeed: 10, color: "#ffe066", spread: 0, count: 1 },
-                    3: { fireRate: 355, damage: 33, bulletSpeed: 11, color: "#ffeb3b", spread: 0, count: 1 },
-                    4: { fireRate: 330, damage: 37, bulletSpeed: 11, color: "#fff59d", spread: 0, count: 1 },
-                    5: { fireRate: 310, damage: 41, bulletSpeed: 12, color: "#ffffff", spread: 0, count: 1 }
+                    1: { fireRate: 400, damage: 25, bulletSpeed: 11, color: "#ffcc00", spread: 0, count: 1 },
+                    2: { fireRate: 380, damage: 29, bulletSpeed: 11, color: "#ffe066", spread: 0, count: 1 },
+                    3: { fireRate: 355, damage: 33, bulletSpeed: 12, color: "#ffeb3b", spread: 0, count: 1 },
+                    4: { fireRate: 330, damage: 37, bulletSpeed: 12, color: "#fff59d", spread: 0, count: 1 },
+                    5: { fireRate: 310, damage: 41, bulletSpeed: 13, color: "#ffffff", spread: 0, count: 1 }
                 };
                 return levels[level] || levels[1];
             } else if (type === 'smg') {
                 const levels = {
-                    1: { fireRate: 90, damage: 8,  bulletSpeed: 12, color: "#00ffff", spread: 0.14, count: 1 },
-                    2: { fireRate: 80, damage: 10, bulletSpeed: 12, color: "#33ffff", spread: 0.12, count: 1 },
-                    3: { fireRate: 70, damage: 12, bulletSpeed: 13, color: "#66ffff", spread: 0.10, count: 1 },
-                    4: { fireRate: 60, damage: 14, bulletSpeed: 13, color: "#99ffff", spread: 0.08, count: 1 },
-                    5: { fireRate: 50, damage: 16, bulletSpeed: 14, color: "#ffffff", spread: 0.06, count: 1 }
+                    1: { fireRate: 90, damage: 8,  bulletSpeed: 13, color: "#00ffff", spread: 0.14, count: 1 },
+                    2: { fireRate: 80, damage: 10, bulletSpeed: 13, color: "#33ffff", spread: 0.12, count: 1 },
+                    3: { fireRate: 70, damage: 12, bulletSpeed: 14, color: "#66ffff", spread: 0.10, count: 1 },
+                    4: { fireRate: 60, damage: 14, bulletSpeed: 14, color: "#99ffff", spread: 0.08, count: 1 },
+                    5: { fireRate: 50, damage: 16, bulletSpeed: 15, color: "#ffffff", spread: 0.06, count: 1 }
                 };
                 return levels[level] || levels[1];
             } else if (type === 'shotgun') {
                 const levels = {
-                    1: { fireRate: 800, damage: 22, bulletSpeed: 9, color: "#ff3300", spread: 0.35, count: 4 },
-                    2: { fireRate: 750, damage: 26, bulletSpeed: 9, color: "#ff5522", spread: 0.33, count: 4 },
-                    3: { fireRate: 700, damage: 30, bulletSpeed: 10, color: "#ff7744", spread: 0.30, count: 4 },
-                    4: { fireRate: 650, damage: 34, bulletSpeed: 10, color: "#ff9966", spread: 0.28, count: 5 },
-                    5: { fireRate: 600, damage: 38, bulletSpeed: 11, color: "#ffbb88", spread: 0.25, count: 5 }
+                    1: { fireRate: 800, damage: 22, bulletSpeed: 10, color: "#ff3300", spread: 0.35, count: 4 },
+                    2: { fireRate: 750, damage: 26, bulletSpeed: 10, color: "#ff5522", spread: 0.33, count: 4 },
+                    3: { fireRate: 700, damage: 30, bulletSpeed: 11, color: "#ff7744", spread: 0.30, count: 4 },
+                    4: { fireRate: 650, damage: 34, bulletSpeed: 11, color: "#ff9966", spread: 0.28, count: 5 },
+                    5: { fireRate: 600, damage: 38, bulletSpeed: 12, color: "#ffbb88", spread: 0.25, count: 5 }
                 };
                 return levels[level] || levels[1];
             }
@@ -948,7 +948,7 @@
         class Player {
             constructor(x, y) {
                 this.x = x; this.y = y; this.radius = 16; 
-                this.speed = gameMode === 'easy' ? 2.7 : 3.0;
+                this.speed = gameMode === 'easy' ? 3.0 : 3.2; // ⚡ 속도감 상향 보정
                 this.hp = 100; this.maxHp = 100;
                 this.shield = 0; this.maxShield = 100; 
                 this.weapon = 'pistol'; 
@@ -956,7 +956,7 @@
                 
                 this.isRolling = false; this.rollCooldown = false; this.rollTimer = 0;
                 this.rollDuration = 8;
-                this.rollSpeed = 9.0;
+                this.rollSpeed = 9.5;
                 this.rollDir = { x: 0, y: 0 };
                 this.lastRollTime = 0;
                 this.rollCooldownDuration = 1600;
@@ -1499,7 +1499,7 @@
             }
 
             update() {
-                if (isCountingDown) return; // ⏱️ 카운트다운 중 적 이동 차단
+                if (isCountingDown) return; // 카운트다운 중 대기
 
                 if (this.type === 'yangnyeom') {
                     if (this.isDashing) {
@@ -1690,7 +1690,6 @@
             }
 
             update() {
-                // 🛑 적이 다 죽을 때까지(웨이브 관문 생기기 전까지) 아이템 습득 차단
                 if (chickens.length > 0) return;
 
                 let distToPlayer = Math.hypot(player.x - this.x, player.y - this.y);
@@ -1707,7 +1706,6 @@
                     return;
                 }
 
-                // 💉 힐템 조건부 즉시 흡수
                 if (this.type === 'medkit') {
                     if (distToPlayer < this.radius + player.radius) {
                         if (player.hp < player.maxHp) {
@@ -1722,7 +1720,6 @@
                     return;
                 }
 
-                // 🛡️ 쉴드 조건부 즉시 흡수
                 if (this.type === 'shield') {
                     if (distToPlayer < this.radius + player.radius) {
                         if (player.shield < player.maxShield) {
@@ -1737,7 +1734,6 @@
                     return;
                 }
 
-                // 무기/기어 자동 습득
                 if (distToPlayer < this.radius + player.radius) {
                     sfx.playPowerUp();
                     if (this.type === 'smg_weapon') {
@@ -1757,7 +1753,6 @@
             }
         }
 
-        /* 🎒 Q키 수동 습득 로직 */
         function pickupNearbyItem() {
             if (chickens.length > 0) return;
 
@@ -1772,12 +1767,8 @@
                 let isNearby = Math.hypot(player.x - it.x, player.y - it.y) < pickupRadius + player.radius;
                 if (!isNearby) return false;
 
-                if (it.type === 'medkit' && player.hp < player.maxHp) {
-                    return false;
-                }
-                if (it.type === 'shield' && player.shield < player.maxShield) {
-                    return false;
-                }
+                if (it.type === 'medkit' && player.hp < player.maxHp) return false;
+                if (it.type === 'shield' && player.shield < player.maxShield) return false;
 
                 return (it.type === 'medkit' || it.type === 'shield');
             });
@@ -1905,7 +1896,7 @@
             ctx.restore();
         }
 
-        // ⏱️ 첫 웨이브 3-2-1 카운트다운 연출 함수
+        // ⏱️ 카운트다운 템포 대폭 강화 (0.6초 간격)
         function startCountdownSequence(callback) {
             isCountingDown = true;
             let count = 3;
@@ -1913,19 +1904,19 @@
             function triggerCountStep() {
                 if (count > 0) {
                     countdownText = String(count);
-                    countdownScale = 2.2;
+                    countdownScale = 2.0;
                     sfx.playBeep(440);
                     count--;
-                    setTimeout(triggerCountStep, 1000);
+                    setTimeout(triggerCountStep, 600);
                 } else {
                     countdownText = "START!";
-                    countdownScale = 2.5;
+                    countdownScale = 2.4;
                     sfx.playBeep(880);
                     setTimeout(() => {
                         isCountingDown = false;
                         countdownText = "";
                         if (callback) callback();
-                    }, 800);
+                    }, 500);
                 }
             }
             triggerCountStep();
@@ -1934,7 +1925,7 @@
         function drawCountdownOverlay() {
             if (!isCountingDown || !countdownText) return;
 
-            if (countdownScale > 1.0) countdownScale -= 0.04;
+            if (countdownScale > 1.0) countdownScale -= 0.05;
 
             ctx.save();
             ctx.font = `bold ${Math.floor(40 * countdownScale)}px "Press Start 2P"`;
@@ -2028,7 +2019,6 @@
             showNotice(`WAVE ${wave} START! (${gameMode.toUpperCase()} MODE)`, "#ffcc00");
             updateUI();
 
-            // ⏱️ 맨 처음 1웨이브에서만 카운트다운 실행
             if (wave === 1) {
                 startCountdownSequence();
             }
@@ -2139,7 +2129,6 @@
             saveScoreToBoard(playerName, score);
         }
 
-        // 📖 가이드북 데이터 및 로직
         const guidePages = [
             {
                 title: "1. 조작법 (CONTROLS)",
@@ -2364,7 +2353,6 @@
         window.addEventListener('keydown', e => { 
             keys[e.key] = true; 
 
-            // ⌨️ 가이드북 열려있을 때 ENTER 누르면 즉시 스킵
             if (e.key === 'Enter' && !document.getElementById('guideModal').classList.contains('hidden')) {
                 closeGuideAndGoDifficulty();
             }
@@ -2467,12 +2455,10 @@
 
                                 let dropRand = Math.random();
 
-                                // 🎒 가방 드롭률 5%
                                 if (!hasBackpack && Math.random() < 0.05) {
                                     items.push(new Item(target.x, target.y, 'backpack'));
                                 }
 
-                                // 🎯 6웨이브부터 회복/쉴드 아이템 드롭률 50% 감축 (총기 기어는 원래 확률 유지)
                                 let healShieldMult = (wave >= 6) ? 0.5 : 1.0;
 
                                 if (dropRand < 0.35) { 
@@ -2521,7 +2507,7 @@
                 player.draw(); 
 
                 drawDashCooldownBar();
-                drawCountdownOverlay(); // ⏱️ 카운트다운 텍스트 출력
+                drawCountdownOverlay();
                 updateUI();
             } else {
                 ctx.fillStyle = '#111'; ctx.fillRect(0, 0, canvas.width, canvas.height);
