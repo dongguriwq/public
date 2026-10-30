@@ -581,7 +581,6 @@
                 </div>
             </div>
 
-            <!-- 보스 전용 HP 바 -->
             <div class="boss-hp-wrapper hidden" id="bossHpWrapper">
                 <div class="boss-hp-title">👑 BOSS: 거대 양념닭 (HP 13,000) 👑</div>
                 <div class="boss-hp-container">
@@ -589,7 +588,6 @@
                 </div>
             </div>
 
-            <!-- 🎒 3슬롯 인벤토리 UI -->
             <div class="backpack-ui hidden" id="backpackUi">
                 <div class="inventory-slot" id="invSlot0" onclick="useInventorySlot(0)" oncontextmenu="dropInventorySlot(event, 0)">
                     <span class="slot-key">4</span>
@@ -609,7 +607,6 @@
 
             <canvas id="gameCanvas" width="1000" height="600"></canvas>
 
-            <!-- 1. 메인 시작 화면 -->
             <div class="overlay" id="startScreen">
                 <button class="dev-top-btn" id="openDevAuthBtn">[DEVELOPER]</button>
                 <h2 style="color: #ff0077; font-size: 20px; margin-bottom: 12px; text-shadow: 3px 3px #000;">POBG GEARS</h2>
@@ -620,7 +617,6 @@
                 <button class="btn" id="startBtn">게임 시작 (INSERT COIN)</button>
             </div>
 
-            <!-- 2. 가이드북 (안내서) 화면 -->
             <div class="overlay hidden" id="guideModal">
                 <div class="guide-box">
                     <div class="guide-skip-tag">[ENTER] 누르면 스킵</div>
@@ -634,7 +630,6 @@
                 </div>
             </div>
 
-            <!-- 3. 난이도 선택 화면 -->
             <div class="overlay hidden" id="difficultyScreen">
                 <h2 style="color: #ffcc00; font-size: 18px; margin-bottom: 10px;">SELECT DIFFICULTY</h2>
                 <p style="font-size: 8px; color: #aaa; margin-bottom: 15px;">난이도를 선택하세요</p>
@@ -644,11 +639,9 @@
                         <div class="mode-title" style="color: #00ffff;">EASY MODE</div>
                         <div class="mode-desc">
                             • 가방 기본 제공 (3슬롯)<br>
-                            • 플레이어 속도 90%<br>
                             • 적 이동 속도 75%<br>
-                            • 기어 요구량 1~2개 감소<br>
-                            • 보스 공격속도 50% 감축<br>
-                            • 보스 패턴 후 텀 10초<br>
+                            • 장판 대기 시간 2초 (단일)<br>
+                            • 패턴 간 텀 5초<br>
                             • 보스 돌진: HP 50% 이하
                         </div>
                     </div>
@@ -656,9 +649,9 @@
                         <div class="mode-title" style="color: #ff0055;">HARD MODE</div>
                         <div class="mode-desc">
                             • 가방 미지급 (직접 획득)<br>
-                            • 6WAVE부터 회복템 드랍율 50% 감소<br>
-                            • 웨이브 클리어 후에만 아이템 습득 가능<br>
-                            • 표준 기어 요구량 및 보스 공격속도
+                            • 장판 대기 시간 1초 (세로+가로 연속)<br>
+                            • 패턴 간 텀 3초<br>
+                            • 6WAVE부터 회복템 50% 감소
                         </div>
                     </div>
                 </div>
@@ -666,7 +659,6 @@
                 <button class="btn" id="backToMainBtn" style="font-size: 9px; padding: 8px 16px; margin-top: 20px; background-color: #444;">돌아가기</button>
             </div>
 
-            <!-- 개발자 암호 입력 모달 -->
             <div class="overlay hidden" id="devAuthModal">
                 <div class="dev-panel-box">
                     <h3 style="color: #00ffff; font-size: 12px;">DEVELOPER LOGIN</h3>
@@ -679,7 +671,6 @@
                 </div>
             </div>
 
-            <!-- 개발자 콘솔 모달 -->
             <div class="overlay hidden" id="devConsoleModal">
                 <div class="dev-panel-box">
                     <h3 style="color: #00ffff; font-size: 14px;">🛠️ DEV CONSOLE</h3>
@@ -713,7 +704,6 @@
                 </div>
             </div>
 
-            <!-- 게임 오버 / 승리 화면 -->
             <div class="overlay hidden" id="gameOverScreen">
                 <h2 id="gameOverTitle" style="color: #ff0033; font-size: 26px; margin-bottom: 15px; text-shadow: 3px 3px #000;">GAME OVER</h2>
                 <p style="font-size: 12px; margin-bottom: 5px;">플레이어: <span id="finalPlayerName" style="color: #ffcc00;">-</span></p>
@@ -730,7 +720,7 @@
         </div>
 
         <div class="controls-info">
-            <div>이동: <span>W, A, S, D</span> | 사격: <span>마우스 클릭</span> | 무적 슬라이딩: <span>Spacebar</span> | 아이템 줍기: <span>Q</span> | 아이템 버리기: <span>우클릭</span> | 가방 사용: <span>4, 5, 6</span></div>
+            <div>이동: <span>WASD</span> | 사격: <span>마우스 클릭</span> | 슬라이딩: <span>Spacebar</span> | 아이템 줍기: <span>Q</span> | 버리기: <span>우클릭</span> | 가방: <span>4, 5, 6</span></div>
         </div>
     </div>
 
@@ -879,29 +869,29 @@
         function getWeaponStats(type, level) {
             if (type === 'pistol') {
                 const levels = {
-                    1: { fireRate: 400, damage: 25, bulletSpeed: 14, color: "#ffcc00", spread: 0, count: 1 },
-                    2: { fireRate: 380, damage: 29, bulletSpeed: 14, color: "#ffe066", spread: 0, count: 1 },
-                    3: { fireRate: 355, damage: 33, bulletSpeed: 15, color: "#ffeb3b", spread: 0, count: 1 },
-                    4: { fireRate: 330, damage: 37, bulletSpeed: 15, color: "#fff59d", spread: 0, count: 1 },
-                    5: { fireRate: 310, damage: 41, bulletSpeed: 16, color: "#ffffff", spread: 0, count: 1 }
+                    1: { fireRate: 350, damage: 25, bulletSpeed: 16, color: "#ffcc00", spread: 0, count: 1 },
+                    2: { fireRate: 330, damage: 29, bulletSpeed: 16, color: "#ffe066", spread: 0, count: 1 },
+                    3: { fireRate: 300, damage: 33, bulletSpeed: 17, color: "#ffeb3b", spread: 0, count: 1 },
+                    4: { fireRate: 280, damage: 37, bulletSpeed: 17, color: "#fff59d", spread: 0, count: 1 },
+                    5: { fireRate: 250, damage: 41, bulletSpeed: 18, color: "#ffffff", spread: 0, count: 1 }
                 };
                 return levels[level] || levels[1];
             } else if (type === 'smg') {
                 const levels = {
-                    1: { fireRate: 90, damage: 8,  bulletSpeed: 16, color: "#00ffff", spread: 0.14, count: 1 },
-                    2: { fireRate: 80, damage: 10, bulletSpeed: 16, color: "#33ffff", spread: 0.12, count: 1 },
-                    3: { fireRate: 70, damage: 12, bulletSpeed: 17, color: "#66ffff", spread: 0.10, count: 1 },
-                    4: { fireRate: 60, damage: 14, bulletSpeed: 17, color: "#99ffff", spread: 0.08, count: 1 },
-                    5: { fireRate: 50, damage: 16, bulletSpeed: 18, color: "#ffffff", spread: 0.06, count: 1 }
+                    1: { fireRate: 80, damage: 8,  bulletSpeed: 18, color: "#00ffff", spread: 0.14, count: 1 },
+                    2: { fireRate: 70, damage: 10, bulletSpeed: 18, color: "#33ffff", spread: 0.12, count: 1 },
+                    3: { fireRate: 60, damage: 12, bulletSpeed: 19, color: "#66ffff", spread: 0.10, count: 1 },
+                    4: { fireRate: 50, damage: 14, bulletSpeed: 19, color: "#99ffff", spread: 0.08, count: 1 },
+                    5: { fireRate: 40, damage: 16, bulletSpeed: 20, color: "#ffffff", spread: 0.06, count: 1 }
                 };
                 return levels[level] || levels[1];
             } else if (type === 'shotgun') {
                 const levels = {
-                    1: { fireRate: 800, damage: 22, bulletSpeed: 12, color: "#ff3300", spread: 0.35, count: 4 },
-                    2: { fireRate: 750, damage: 26, bulletSpeed: 12, color: "#ff5522", spread: 0.33, count: 4 },
-                    3: { fireRate: 700, damage: 30, bulletSpeed: 13, color: "#ff7744", spread: 0.30, count: 4 },
-                    4: { fireRate: 650, damage: 34, bulletSpeed: 13, color: "#ff9966", spread: 0.28, count: 5 },
-                    5: { fireRate: 600, damage: 38, bulletSpeed: 14, color: "#ffbb88", spread: 0.25, count: 5 }
+                    1: { fireRate: 700, damage: 22, bulletSpeed: 14, color: "#ff3300", spread: 0.35, count: 4 },
+                    2: { fireRate: 650, damage: 26, bulletSpeed: 14, color: "#ff5522", spread: 0.33, count: 4 },
+                    3: { fireRate: 600, damage: 30, bulletSpeed: 15, color: "#ff7744", spread: 0.30, count: 4 },
+                    4: { fireRate: 550, damage: 34, bulletSpeed: 15, color: "#ff9966", spread: 0.28, count: 5 },
+                    5: { fireRate: 500, damage: 38, bulletSpeed: 16, color: "#ffbb88", spread: 0.25, count: 5 }
                 };
                 return levels[level] || levels[1];
             }
@@ -914,7 +904,7 @@
             noticeBoard.style.boxShadow = `0 0 10px ${color}`;
             noticeBoard.classList.add('active');
             clearTimeout(noticeTimeout);
-            noticeTimeout = setTimeout(() => noticeBoard.classList.remove('active'), 3500);
+            noticeTimeout = setTimeout(() => noticeBoard.classList.remove('active'), 3000);
         }
 
         class DamageText {
@@ -923,8 +913,8 @@
                 this.y = y - 15;
                 this.text = text;
                 this.color = color;
-                this.life = 45;
-                this.vy = -0.8;
+                this.life = 40;
+                this.vy = -1.0;
             }
             update() {
                 this.y += this.vy;
@@ -932,7 +922,7 @@
             }
             draw() {
                 ctx.save();
-                ctx.globalAlpha = this.life / 45;
+                ctx.globalAlpha = this.life / 40;
                 ctx.font = 'bold 11px "Press Start 2P"';
                 ctx.strokeStyle = '#000';
                 ctx.lineWidth = 3;
@@ -946,7 +936,7 @@
         class Player {
             constructor(x, y) {
                 this.x = x; this.y = y; this.radius = 16; 
-                this.speed = gameMode === 'easy' ? 4.5 : 5.0; 
+                this.speed = gameMode === 'easy' ? 6.3 : 7.0; 
                 this.hp = 100; this.maxHp = 100;
                 this.shield = 0; this.maxShield = 100; 
                 this.weapon = 'pistol'; 
@@ -954,10 +944,10 @@
                 
                 this.isRolling = false; this.rollCooldown = false; this.rollTimer = 0;
                 this.rollDuration = 10;
-                this.rollSpeed = 13.0;
+                this.rollSpeed = 16.0;
                 this.rollDir = { x: 0, y: 0 };
                 this.lastRollTime = 0;
-                this.rollCooldownDuration = 1000;
+                this.rollCooldownDuration = 900;
 
                 this.stunTimer = 0;
                 this.burnTicks = 0; 
@@ -1019,7 +1009,7 @@
             update() {
                 if (this.burnTicks > 0) {
                     this.burnTimer++;
-                    if (this.burnTimer >= 300) {
+                    if (this.burnTimer >= 200) {
                         this.burnTimer = 0;
                         this.burnTicks--;
                         let burnDmg = this.maxHp * 0.03;
@@ -1138,7 +1128,7 @@
             }
 
             shoot() {
-                if (this.isRolling || this.stunTimer > 0 || isCountingDown) return;
+                if (this.isRolling || this.stunTimer > 0) return;
 
                 const now = Date.now();
                 const currentLevel = WEAPON_DATA[this.weapon].level;
@@ -1186,7 +1176,7 @@
         class EnemyBullet {
             constructor(x, y, angle, speed, damage, isBossFire = false) {
                 this.x = x; this.y = y;
-                let actualSpeed = (isBossFire && gameMode === 'easy') ? speed * 0.5 : speed;
+                let actualSpeed = (isBossFire && gameMode === 'easy') ? speed * 0.6 : speed;
                 this.vx = Math.cos(angle) * actualSpeed; this.vy = Math.sin(angle) * actualSpeed;
                 this.damage = damage; this.radius = isBossFire ? 8 : 6; this.toRemove = false;
                 this.isBossFire = isBossFire;
@@ -1245,8 +1235,7 @@
                 this.type = type;
                 this.data = data;
                 
-                let baseDuration = (type === 'stripe' ? 105 : 66);
-                if (gameMode === 'easy') baseDuration = Math.floor(baseDuration * 2);
+                let baseDuration = (gameMode === 'hard') ? 60 : 120;
 
                 this.timer = data.duration || baseDuration;
                 this.maxTimer = this.timer;
@@ -1260,12 +1249,12 @@
                 }
             }
             executePattern() {
-                let restTime = (gameMode === 'easy') ? 600 : 180;
+                let restTime = (gameMode === 'easy') ? 300 : 180;
 
                 if (this.type === 'stripe') {
                     sfx.playExplosion();
+                    let stripeWidth = MAP_WIDTH / 10;
                     this.data.indices.forEach(idx => {
-                        let stripeWidth = MAP_WIDTH / 10;
                         let startX = idx * stripeWidth;
                         let endX = startX + stripeWidth;
 
@@ -1283,21 +1272,57 @@
                             updateUI();
                         }
                     });
+
+                    if (gameMode === 'hard' && !this.data.isFollowUp) {
+                        setTimeout(() => {
+                            let horizIndices = [];
+                            while(horizIndices.length < 5) {
+                                let r = Math.floor(Math.random() * 8);
+                                if (!horizIndices.includes(r)) horizIndices.push(r);
+                            }
+                            showNotice("HARD LINK: HORIZONTAL SPLIT!", "#ff0055");
+                            bossTelegraphs.push(new BossTelegraph('horizontal_stripe', { indices: horizIndices, isFollowUp: true }));
+                        }, 300);
+                    } else {
+                        if (activeBoss) activeBoss.startRest(restTime);
+                    }
+
+                } else if (this.type === 'horizontal_stripe') {
+                    sfx.playExplosion();
+                    let stripeHeight = MAP_HEIGHT / 8;
+                    this.data.indices.forEach(idx => {
+                        let startY = idx * stripeHeight;
+                        let endY = startY + stripeHeight;
+
+                        for (let i = 0; i < 15; i++) {
+                            particles.push(new Particle(Math.random() * MAP_WIDTH, startY + Math.random() * stripeHeight, '#ff0055', 8, -2, 0, 25));
+                        }
+
+                        if (player.y >= startY && player.y <= endY) {
+                            if (player.shield > 0) {
+                                damageTexts.push(new DamageText(player.x, player.y, "SHIELD BREAK!", "#00ffff"));
+                                player.shield = 0;
+                            } else {
+                                player.takeDamage(40, true);
+                            }
+                            updateUI();
+                        }
+                    });
                     if (activeBoss) activeBoss.startRest(restTime);
 
                 } else if (this.type === 'dash') {
                     if (activeBoss) {
                         activeBoss.isDashing = true;
-                        let dashSpeed = (gameMode === 'easy') ? 4.5 : 9.0;
+                        let dashSpeed = (gameMode === 'easy') ? 8.0 : 14.0;
                         activeBoss.dashVx = this.data.dirX * dashSpeed;
                         activeBoss.dashVy = this.data.dirY * dashSpeed;
-                        activeBoss.dashTimer = 40;
+                        activeBoss.dashTimer = 30;
                     }
                 }
             }
             draw() {
                 ctx.save();
-                let alpha = (Math.sin(Date.now() * 0.015) * 0.2) + 0.4;
+                let alpha = (Math.sin(Date.now() * 0.03) * 0.3) + 0.5;
 
                 if (this.type === 'stripe') {
                     let stripeWidth = MAP_WIDTH / 10;
@@ -1307,6 +1332,15 @@
                         ctx.strokeStyle = '#ff0033';
                         ctx.lineWidth = 2;
                         ctx.strokeRect((idx * stripeWidth) - camera.x, 0 - camera.y, stripeWidth, MAP_HEIGHT);
+                    });
+                } else if (this.type === 'horizontal_stripe') {
+                    let stripeHeight = MAP_HEIGHT / 8;
+                    ctx.fillStyle = `rgba(255, 0, 85, ${alpha})`;
+                    this.data.indices.forEach(idx => {
+                        ctx.fillRect(0 - camera.x, (idx * stripeHeight) - camera.y, MAP_WIDTH, stripeHeight);
+                        ctx.strokeStyle = '#ff0055';
+                        ctx.lineWidth = 2;
+                        ctx.strokeRect(0 - camera.x, (idx * stripeHeight) - camera.y, MAP_WIDTH, stripeHeight);
                     });
                 } else if (this.type === 'dash') {
                     ctx.save();
@@ -1328,7 +1362,7 @@
                 this.x = x; this.y = y; this.type = type;
                 this.bobTimer = Math.random() * 100;
                 this.toRemove = false;
-                this.lastShot = Date.now() + Math.random() * 2000;
+                this.lastShot = Date.now() + Math.random() * 1000;
                 this.hostRef = hostRef;
                 this.lastSpawnTime = Date.now();
                 
@@ -1347,23 +1381,23 @@
                 let speedMultiplier = (gameMode === 'easy' && type !== 'yangnyeom') ? 0.75 : 1.0;
 
                 if (type === 'fast') {
-                    this.radius = 12; this.speed = 2.8 * speedMultiplier; this.hp = 26; this.color = '#ffeb3b'; this.scoreReward = 150;
+                    this.radius = 12; this.speed = 7.2 * speedMultiplier; this.hp = 26; this.color = '#ffeb3b'; this.scoreReward = 150;
                 } else if (type === 'hybrid') {
-                    this.radius = 22; this.speed = 1.3 * speedMultiplier; this.hp = 120 + (wave * 8); this.color = '#ffeb3b'; this.scoreReward = 300;
+                    this.radius = 22; this.speed = 4.8 * speedMultiplier; this.hp = 120 + (wave * 8); this.color = '#ffeb3b'; this.scoreReward = 300;
                 } else if (type === 'yangnyeom') {
                     this.radius = 48;
-                    this.speed = 0.8;
+                    this.speed = 2.8;
                     this.hp = 13000;
                     this.color = '#bf1a2f'; this.scoreReward = 5000;
                     activeBoss = this;
                 } else if (type === 'crossbow') {
-                    this.radius = 18; this.speed = 1.0 * speedMultiplier; this.hp = 110; this.color = '#0066ff'; this.scoreReward = 500;
+                    this.radius = 18; this.speed = 3.6 * speedMultiplier; this.hp = 110; this.color = '#0066ff'; this.scoreReward = 500;
                 } else if (type === 'host') {
-                    this.radius = 24; this.speed = 1.1 * speedMultiplier; this.hp = 220 + (wave * 15); this.color = '#9900ff'; this.scoreReward = 800;
+                    this.radius = 24; this.speed = 3.8 * speedMultiplier; this.hp = 220 + (wave * 15); this.color = '#9900ff'; this.scoreReward = 800;
                 } else if (type === 'zombie') {
-                    this.radius = 16; this.speed = 1.9 * speedMultiplier; this.hp = 75; this.color = '#55ff55'; this.scoreReward = 80;
+                    this.radius = 16; this.speed = 6.2 * speedMultiplier; this.hp = 75; this.color = '#55ff55'; this.scoreReward = 80;
                 } else {
-                    this.radius = 15; this.speed = 1.8 * speedMultiplier; this.hp = 55; this.color = '#ffffff'; this.scoreReward = 100;
+                    this.radius = 15; this.speed = 5.8 * speedMultiplier; this.hp = 55; this.color = '#ffffff'; this.scoreReward = 100;
                 }
                 this.maxHp = this.hp;
             }
@@ -1377,7 +1411,7 @@
 
             applyKnockback(dirX, dirY, force = 12) {
                 if (this.type === 'yangnyeom') return;
-                this.stunTimer = 30; 
+                this.stunTimer = 20; 
                 this.knockback.x = dirX * force;
                 this.knockback.y = dirY * force;
                 sfx.playKnockback();
@@ -1497,8 +1531,6 @@
             }
 
             update() {
-                if (isCountingDown) return; 
-
                 if (this.type === 'yangnyeom') {
                     if (this.isDashing) {
                         this.x += this.dashVx;
@@ -1506,15 +1538,15 @@
                         this.dashTimer--;
                         if (this.dashTimer <= 0) {
                             this.isDashing = false;
-                            let restTime = (gameMode === 'easy') ? 600 : 180;
+                            let restTime = (gameMode === 'easy') ? 300 : 180;
                             this.startRest(restTime); 
                         }
 
                         if (Math.hypot(player.x - this.x, player.y - this.y) < player.radius + 40) {
                             let dashDmg = player.maxHp * 0.5;
                             player.takeDamage(dashDmg, true);
-                            player.stunTimer = 30; 
-                            damageTexts.push(new DamageText(player.x, player.y, "STUNNED (0.5s)!", "#ff0055"));
+                            player.stunTimer = 20; 
+                            damageTexts.push(new DamageText(player.x, player.y, "STUNNED!", "#ff0055"));
                         }
                     } else if (this.isResting) {
                         this.restTimer--;
@@ -1530,7 +1562,7 @@
                         }
 
                         this.patternTimer++;
-                        if (this.patternTimer >= 180) {
+                        if (this.patternTimer >= 90) {
                             this.patternTimer = 0;
                             this.triggerBossPattern();
                         }
@@ -1546,7 +1578,7 @@
 
                 if (this.type === 'host') {
                     let now = Date.now();
-                    if (now - this.lastSpawnTime >= 5000) {
+                    if (now - this.lastSpawnTime >= 3000) {
                         this.lastSpawnTime = now;
                         let zombie = new Chicken(this.x + (Math.random() - 0.5) * 40, this.y + (Math.random() - 0.5) * 40, 'zombie', this);
                         chickens.push(zombie);
@@ -1573,10 +1605,10 @@
                     else if (dist < 150) { this.x -= (dx / dist) * this.speed; this.y -= (dy / dist) * this.speed; }
 
                     let now = Date.now();
-                    if (now - this.lastShot > 3000) {
+                    if (now - this.lastShot > 1800) {
                         this.lastShot = now; sfx.playShoot('enemy');
                         let angle = Math.atan2(player.y - this.y, player.x - this.x);
-                        enemyBullets.push(new EnemyBullet(this.x, this.y, angle, 4.0, 50, false));
+                        enemyBullets.push(new EnemyBullet(this.x, this.y, angle, 5.0, 50, false));
                     }
                 } else {
                     if (dist > 0) { this.x += (dx / dist) * this.speed; this.y += (dy / dist) * this.speed; }
@@ -1600,7 +1632,7 @@
 
                 if (randIdx === 0) {
                     this.currentPatternType = 1;
-                    showNotice("PATTERN 1: SPACE SPLIT!", "#ff0033");
+                    showNotice("PATTERN 1: VERTICAL SPLIT!", "#ff0033");
                     let activeIndices = [];
                     while(activeIndices.length < 5) {
                         let r = Math.floor(Math.random() * 10);
@@ -1613,13 +1645,13 @@
                     showNotice("PATTERN 2: 360 FLAME RING!", "#ff5500");
                     sfx.playChickenSound();
                     
-                    let castDelay = (gameMode === 'easy') ? 1600 : 800;
+                    let castDelay = (gameMode === 'easy') ? 800 : 400;
                     setTimeout(() => {
                         for (let i = 0; i < 30; i++) {
                             let angle = (Math.PI * 2 / 30) * i;
-                            enemyBullets.push(new EnemyBullet(this.x, this.y, angle, 4.5, 25, true));
+                            enemyBullets.push(new EnemyBullet(this.x, this.y, angle, 5.5, 25, true));
                         }
-                        let restTime = (gameMode === 'easy') ? 600 : 180;
+                        let restTime = (gameMode === 'easy') ? 300 : 180;
                         this.startRest(restTime); 
                     }, castDelay);
 
@@ -1695,7 +1727,6 @@
                 if (this.type === 'backpack') {
                     if (distToPlayer < this.radius + player.radius) {
                         hasBackpack = true;
-                        backpackUi.classList.remove('hidden');
                         sfx.playPowerUp();
                         showNotice("BACKPACK UNLOCKED! (3 SLOTS READY)", "#ff9900");
                         this.toRemove = true;
@@ -1735,18 +1766,30 @@
                 if (distToPlayer < this.radius + player.radius) {
                     sfx.playPowerUp();
                     if (this.type === 'smg_weapon') {
-                        WEAPON_DATA.smg.unlocked = true; player.switchWeapon('smg'); showNotice("MICRO UZI UNLOCKED!", "#00ffff");
+                        WEAPON_DATA.smg.unlocked = true; 
+                        player.switchWeapon('smg'); 
+                        showNotice("MICRO UZI UNLOCKED!", "#00ffff");
                     } else if (this.type === 'shotgun_weapon') {
-                        WEAPON_DATA.shotgun.unlocked = true; player.switchWeapon('shotgun'); showNotice("S12K UNLOCKED!", "#ff3300");
+                        WEAPON_DATA.shotgun.unlocked = true; 
+                        player.switchWeapon('shotgun'); 
+                        showNotice("S12K UNLOCKED!", "#ff3300");
                     } else if (this.type.endsWith('_gear')) {
-                        let targetWeapon = this.type.split('_')[0]; let data = WEAPON_DATA[targetWeapon];
+                        let targetWeapon = this.type.split('_')[0]; 
+                        let data = WEAPON_DATA[targetWeapon];
                         if (data.level < 5) {
-                            data.gears++; let limit = data.maxGears[data.level - 1];
-                            if (data.gears >= limit) { data.level++; data.gears = 0; showNotice(`${data.name} UPGRADED TO LV.${data.level}!`, this.getColor()); }
-                            else { showNotice(`${data.name} GEAR (${data.gears}/${limit})`, this.getColor()); }
+                            data.gears++; 
+                            let limit = data.maxGears[data.level - 1];
+                            if (data.gears >= limit) { 
+                                data.level++; 
+                                data.gears = 0; 
+                                showNotice(`${data.name} UPGRADED TO LV.${data.level}!`, this.getColor()); 
+                            } else { 
+                                showNotice(`${data.name} GEAR (${data.gears}/${limit})`, this.getColor()); 
+                            }
                         }
                     }
-                    this.toRemove = true; updateUI();
+                    this.toRemove = true; 
+                    updateUI();
                 }
             }
         }
@@ -1904,7 +1947,7 @@
                     countdownScale = 2.0;
                     sfx.playBeep(440);
                     count--;
-                    setTimeout(triggerCountStep, 350); 
+                    setTimeout(triggerCountStep, 250); 
                 } else {
                     countdownText = "START!";
                     countdownScale = 2.4;
@@ -1913,7 +1956,7 @@
                         isCountingDown = false;
                         countdownText = "";
                         if (callback) callback();
-                    }, 300);
+                    }, 200);
                 }
             }
             triggerCountStep();
@@ -1922,7 +1965,7 @@
         function drawCountdownOverlay() {
             if (!isCountingDown || !countdownText) return;
 
-            if (countdownScale > 1.0) countdownScale -= 0.08;
+            if (countdownScale > 1.0) countdownScale -= 0.1;
 
             ctx.save();
             ctx.font = `bold ${Math.floor(40 * countdownScale)}px "Press Start 2P"`;
@@ -2146,12 +2189,11 @@
             {
                 title: "3. 난이도 모드 (GAME MODES)",
                 content: `• <b>EASY MODE</b><br>
-                          &nbsp;&nbsp;- 3슬롯 가방 기본 제공<br>
-                          &nbsp;&nbsp;- 보스 공격속도 및 패턴 대폭 단순화<br><br>
+                          &nbsp;&nbsp;- 장판 대기 시간 2초 (단일 세로 패턴)<br>
+                          &nbsp;&nbsp;- 패턴 연계 후 휴식 텀 5초<br><br>
                           • <b>HARD MODE</b><br>
-                          &nbsp;&nbsp;- 가방 미지급 (적 처치 시 5% 확률 드롭)<br>
-                          &nbsp;&nbsp;- 6WAVE부터 회복/쉴드 드롭률 50% 감소<br>
-                          &nbsp;&nbsp;- <b>웨이브 클리어 후에만</b> 아이템 습득 가능`
+                          &nbsp;&nbsp;- 장판 대기 시간 1초 (세로 폭발 후 가로 연계)<br>
+                          &nbsp;&nbsp;- 패턴 연계 후 휴식 텀 3초`
             }
         ];
 
